@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Rock Paper Scissors</title>
+	<style type="text/css">
+		h1 {
+			text-align: center;
+			font-family: arial;
+		}
+
+		#theButtons {
+    		text-align: center;
+    		margin-top: 10px;
+		}
+
+		button {
+			border: 3px solid black;
+			border-radius: 25px;
+			font-size: 15px;
+			outline: none;
+			height: 50px;
+			width: 100px;
+		}
+		button:hover {
+			background-color: pink;
+			cursor: pointer;
+		}
+		
+
+		#theScore {
+			padding: 20px;
+			text-align: center;
+			font-size: 28px;
+		}
+	
+	</style>
+</head>
+<body>
+
+	<h1>Rock Paper Scissors</h1>
+
+	<div id="theButtons">
+		<button value="rock">Rock</button>
+		<button value="paper">Paper</button>
+		<button value="scissors">Scissors</button>
+	</div>
+
+	
+	<div id="theScore">		
+		<p>Score:</p>
+		<p>
+			Player - <span id="player">0</span>:<span id="comp">0</span> - Comp		
+		</p>
+		<p id="message"></p>
+		<button id="reset">Reset</button>
+	</div>
+
+
+	<script type="text/javascript">
+		let playerPoints = 0;
+		let compPoints = 0;
+		let roundMax = 0;		
+
+		
+		
+		const buttons = document.querySelectorAll('button');
+		for (let x = 0;x < buttons.length;x++) {
+			buttons[x].addEventListener("click", (e) => {
+				game(playRound(buttons[x].value,computerPlay()));				
+			});
+		}
+		
+
+		
+		const resetBtn = document.querySelector("#reset");
+		resetBtn.addEventListener("click", (e) => {
+			roundMax = 0;
+			playerPoints = 0;
+			compPoints = 0;	
+			
+			document.querySelector('#player').innerHTML = 0;
+			document.querySelector('#comp').innerHTML = 0;
+			document.querySelector('#message').innerHTML = "";
+		});
+
+
+
+
+
+		function computerPlay() {
+			let computerChoice = ["paper","rock","scissors"];
+			
+			return computerChoice[Math.floor(Math.random() * 3)];
+		}
+
+		
+
+		function playRound(playerSelection,computerSelection) {
+			// playerSelection = playerSelection.toLowerCase();
+		
+			if (playerSelection === "paper") {
+				if (computerSelection === "paper") {
+					return 2;
+				}
+				else if (computerSelection === "rock") {
+					return 1;
+				}
+				else {
+					return 0;
+				}
+			}
+			else if (playerSelection === "scissors") {
+				if (computerSelection === "scissors") {
+					return 2;
+				}
+				else if (computerSelection === "rock") {
+					return 0;
+				}
+				else {
+					return 1;
+				}
+
+			}
+			else if (playerSelection === "rock") {
+				if (computerSelection === "scissors") {
+					return 1;
+				}
+				else if (computerSelection === "paper") {
+					return 0;
+				}
+				else {
+					return 2;
+				}
+
+			}
+		}
+
+		
+		
+		function game(aReturn) {
+					
+			if (roundMax < 5) { 
+				if (aReturn == 1) {
+					playerPoints++;
+					roundMax++;
+					document.querySelector('#player').innerHTML = playerPoints;
+					if (!(roundMax < 5)) {
+						finalWinner();
+					}
+					else {
+						document.querySelector('#message').innerHTML = "Round won";
+					}
+					
+				}		
+				if (aReturn == 0) {
+					compPoints++;
+					roundMax++;
+					document.querySelector('#comp').innerHTML = compPoints;
+					if (!(roundMax < 5)) {
+						finalWinner();
+					}
+					else {
+						document.querySelector('#message').innerHTML = "Round lost";	
+					}
+						
+				}
+				if (aReturn == 2) {
+					roundMax++;					
+					if (!(roundMax < 5)) {
+						finalWinner();
+					}
+					else {
+						document.querySelector('#message').innerHTML = "Draw";		
+					}
+					
+				}
+			
+			}		
+		}
+		
+		
+
+		function finalWinner() {
+			if (playerPoints > compPoints) {
+				document.querySelector('#message').innerHTML = "You won the game!";
+			}
+			else if (playerPoints < compPoints) {
+				document.querySelector('#message').innerHTML = "You lost the game!";
+			}
+			else {
+				document.querySelector('#message').innerHTML = "The game is a draw!";
+			}
+		}
+		
+
+	</script>
+
+
+
+</body>
+</html>
